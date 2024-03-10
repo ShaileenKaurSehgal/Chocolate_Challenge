@@ -1,0 +1,48 @@
+<div class="grid p-3" style="height: 100vh;">
+    <div class="col-8 text-sm ">
+        <div>
+            <h1>{{chocolateData.name}} Details</h1>
+        </div>
+        <div class="mt-6">
+            <label class="font-medium"> Chocolate Name: </label>
+            <input type="text" pInputText [(ngModel)]="chocolateName" [style]="{'width':'80%'}">
+        </div>
+        <div class="mt-3">
+            <label class="font-medium"> Chocolate Brand: </label>
+            <input type="text" pInputText [(ngModel)]="chocolateBrand" [style]="{'width':'80%'}">
+        </div>
+
+        @if(chocolateData.prices.length>0){
+        <p-table [value]="chocolateData.prices" styleClass="p-datatable-sm font-light mt-3">
+            <ng-template pTemplate="header">
+                <tr class="theader">
+                    <th>Shop Name</th>
+                    <th>Price</th>
+                    <th>Amount(g)</th>
+                    <th>Link to the Store</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-chocolate>
+                <tr class="text-sm">
+                    <td>{{chocolate.shop}}</td>
+                    <td>{{chocolate.price | currency: 'EUR'}}</td>
+                    <td>{{chocolate.unit.toLowerCase() === 'kg'? chocolate.amount*1000 : chocolate.amount}}</td>
+                    <td><a href="{{chocolate.link}}" target="_blank">{{chocolate.link}}</a></td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+        }
+        @else{
+        <div class="mt-3 p-5 bg-orange-700 text-white text-lg text-center font-light">
+            <p>
+                Oops the prices of the chocolates aren't available yet!!!
+            </p>
+        </div>
+        }
+    </div>
+    <div class="col-4">
+        <h3>Nutritional Contents of {{chocolateData.name}}</h3>
+        <p-chart type="pie" [data]="nutritionChartData" [style]="{'width': '80%','display':'inline-block'}"></p-chart>
+    </div>
+</div>
